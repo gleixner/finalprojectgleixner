@@ -27,13 +27,12 @@ public class ProductController {
 	@Autowired 
 	ProductService productService;
 			  
-	@RequestMapping(method=RequestMethod.GET,value="show")
-	public ModelAndView showProduct(@RequestParam(value="product_id", defaultValue="1", required=false) int id) {				
-		ModelAndView mav = new ModelAndView();		
- 		mav.setViewName("showProduct");
+	@RequestMapping(method=RequestMethod.GET,value="/show.html")
+	public String showProduct(@RequestParam(value="product_id", defaultValue="6", required=false) long id, Model m) {				
+ 		Product product = productService.getProduct(id);
  		logger.debug("Setting name to Latte"); 		
- 		mav.addObject("product", productService.getProduct(id));
-		return mav;		
+ 		m.addAttribute("product", product);
+		return "showProduct";		
 	}
 	
 	@RequestMapping( method=RequestMethod.GET, value="add" )
@@ -42,7 +41,7 @@ public class ProductController {
 		return "addProduct";
 	}
 	
-//	@RewuestMapping(method=RequestMethod.POST, value ="add.html" )
+//	@RequestMapping(method=RequestMethod.POST, value ="add.html" )
 //	public String addProduct(@ModelAttribute("product") @Valid Product product, BindingResult result, Model m ) {
 //		m.addAttribute("product", product);
 //	}

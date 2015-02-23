@@ -1,9 +1,10 @@
 package com.expeditors.training.course3demo.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Service;
 
@@ -13,19 +14,15 @@ import com.expeditors.training.course3demo.model.Shipment;
 @Service
 public class ShipmentService {
 
-	Map<String, Shipment> db = new HashMap<>();
+	@PersistenceContext
+	private EntityManager entityManager;
 	
-	{
-		Shipment s1 = new Shipment("steve", "JFK", "SAL", 5 );
-		Shipment s2 = new Shipment("sal", "JFK", "SAL", 5 );
-		Shipment s3 = new Shipment("jim", "JFK", "SAL", 5 );
-		db.put( s1.getName(), s1 );
-		db.put( s2.getName(), s2 );
-		db.put( s3.getName(), s3 );
+	public Shipment getById(Long id) {
+		return entityManager.find(Shipment.class, id);
 	}
 	
-	public List<Shipment> getAllShipments() {
-		return new ArrayList<>( db.values() );
+	public List<Shipment> getAll() {
+		return new ArrayList<Shipment>();
 	}
 	
 	/**
@@ -38,11 +35,12 @@ public class ShipmentService {
 	 * @return
 	 */
 	public boolean addShipment( Shipment s ) {
-		boolean result = db.containsKey( s.getName() );
-		
-		if( !result ) {
-			db.put( s.getName(),  s );
-		}
+//		boolean result = db.containsKey( s.getName() );
+//		
+//		if( !result ) {
+//			db.put( s.getName(),  s );
+//		}
+		boolean result = true;
 		return !result;
 	}
 	

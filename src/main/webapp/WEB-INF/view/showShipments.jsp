@@ -19,12 +19,15 @@
 		<h3>Shipment name ${param.name} has been successfully added</h3>
 	</c:if>
 
+	<h1>Shipment</h1>
+	<hr/>
+
 	<table>
 		<tr>
-			<th>Name</th>
-			<th>Origin</th>
-			<th>Destination</th>
-			<th>Volume</th>
+			<th> Name </th>
+			<th> Origin </th>
+			<th> Destination </th>
+			<th> Volume </th>
 		<tr>
 		<c:forEach items="${shipments}" var="shipment">
 			<tr>

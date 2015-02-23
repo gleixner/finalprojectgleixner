@@ -1,10 +1,11 @@
 package com.expeditors.training.course3demo.controller;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,8 +53,8 @@ public class ProductControllerTest {
 		Product first = new Product("foo", "Lorem ipsum", 1.99);
 		Product second = new Product("two", "Lorem ipsum 2", .99);
 
-		Mockito.when(productService.getProduct(1)).thenReturn(first);
-		Mockito.when(productService.getProduct(2)).thenReturn(second);
+		Mockito.when(productService.getProduct(1L)).thenReturn(first);
+		Mockito.when(productService.getProduct(2L)).thenReturn(second);
 
 		mockMvc.perform(get("/product/show.html?product_id=1"))
 				.andExpect(status().isOk())

@@ -1,30 +1,43 @@
 package com.expeditors.training.course3demo.model;
 
-import java.math.BigDecimal;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@Entity
 public class Shipment {
 
+	@Id
+	@Column(name="SHIPMENT_ID")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	Long id;
+	
+	@Column
 	@Size(min=3, max=40)
 	String name;
 	
+	@Column
 	@Pattern(regexp="[A-Z0-9]{3}")
 	String origin;
 	
+	@Column
 	@Pattern(regexp="[A-Z0-9]{3}")
 	String destination;
 	
+	@Column
 	@Min(0)
 	@NotNull
-	BigDecimal volume;
+	Double volume;
 	
 	public Shipment(){}
 	
-	public Shipment( String name, String origin, String destination, BigDecimal volume ) {
+	public Shipment( String name, String origin, String destination, Double volume ) {
 		this.name = name;
 		this.origin = origin;
 		this.destination = destination;
@@ -35,7 +48,7 @@ public class Shipment {
 		this.name = name;
 		this.origin = origin;
 		this.destination = destination;
-		this.volume = new BigDecimal(volume);
+		this.volume = new Double(volume);
 	}
 	
 	public String getName() {
@@ -62,11 +75,11 @@ public class Shipment {
 		this.destination = destination;
 	}
 
-	public BigDecimal getVolume() {
+	public Double getVolume() {
 		return volume;
 	}
 
-	public void setVolume(BigDecimal volume) {
+	public void setVolume(Double volume) {
 		this.volume = volume;
 	}
 	

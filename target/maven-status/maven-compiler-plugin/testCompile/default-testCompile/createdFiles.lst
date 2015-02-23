@@ -1,2 +1,9 @@
 com\expeditors\training\course3demo\controller\ContainerControllerTest.class
+com\expeditors\training\course3demo\controller\ShipmentControllerTest.class
 com\expeditors\training\course3demo\controller\ProductControllerTest.class
+com\expeditors\training\course3demo\service\ProductServiceTest.class
+com\expeditors\training\course3demo\config\PersistenceJPATestConfig.class
+com\expeditors\training\course3demo\config\TestConfig.class
+com\expeditors\training\course3demo\service\ContainerServiceTest.class
+com\expeditors\training\course3demo\service\ShipmentServiceTest.class
+com\expeditors\training\course3demo\config\ServiceTestConfig.class

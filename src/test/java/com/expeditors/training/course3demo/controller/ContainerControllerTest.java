@@ -58,11 +58,11 @@ public class ContainerControllerTest {
 	@Test
 	public void testShowContainers() throws Exception {
 		List<Container> result = new ArrayList<>();
-		result.add( new Container( "Bob", new BigDecimal(1), "jfk", "ams", Status.ARRIVED ) );
-		result.add( new Container( "Sue", new BigDecimal(2), "jfk", "ams", Status.READY) );
-		result.add( new Container( "Jim", new BigDecimal(3), "jfk", "ams", Status.TRANSIT) );
+		result.add( new Container( "Bob", new Double(1), "jfk", "ams", Status.ARRIVED ) );
+		result.add( new Container( "Sue", new Double(2), "jfk", "ams", Status.READY) );
+		result.add( new Container( "Jim", new Double(3), "jfk", "ams", Status.TRANSIT) );
 
-		Mockito.when(containerService.getAllContainers()).thenReturn(result);
+		Mockito.when(containerService.getAll()).thenReturn(result);
 
 		mockMvc.perform(get("/container/list.html"))
 				.andExpect(status().isOk())
@@ -72,7 +72,7 @@ public class ContainerControllerTest {
 				.andExpect(model().attribute("containers", hasItem(
 						allOf(
 								hasProperty("name", is("Bob" ) ),
-								hasProperty("capacity", is( new BigDecimal(1) ) ),
+								hasProperty("capacity", is( 1.0 ) ),
 								hasProperty("location", is("jfk") ),
 								hasProperty("destination", is("ams") ),
 								hasProperty("status", is(Status.ARRIVED) )
@@ -126,7 +126,7 @@ public class ContainerControllerTest {
 				.andExpect( forwardedUrl("/WEB-INF/view/showContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
-				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( new BigDecimal(3) ) )))
+				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
 				.andExpect(model().attribute("container", hasProperty("location", equalTo( "SFK" ) )))
 				.andExpect(model().attribute("container", hasProperty("destination", equalTo( "NSY" ) )))
 				.andExpect(model().attribute("container", hasProperty("status", equalTo( Status.READY ) )));
@@ -146,7 +146,7 @@ public class ContainerControllerTest {
 				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attributeHasFieldErrors("container", "name") )
-				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( new BigDecimal(3) ) )))
+				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
 				.andExpect(model().attribute("container", hasProperty("location", equalTo( "SFK" ) )))
 				.andExpect(model().attribute("container", hasProperty("destination", equalTo( "" ) )))
 				.andExpect(model().attribute("container", hasProperty("status", equalTo( Status.READY ) )));
@@ -166,7 +166,7 @@ public class ContainerControllerTest {
 				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
-				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( new BigDecimal(3) ) )))
+				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
 				.andExpect(model().attributeHasFieldErrors("container", "location") )
 				.andExpect(model().attribute("container", hasProperty("destination", equalTo( "" ) )))
 				.andExpect(model().attribute("container", hasProperty("status", equalTo( Status.READY ) )));
@@ -186,7 +186,7 @@ public class ContainerControllerTest {
 				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
-				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( new BigDecimal(3) ) )))
+				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
 				.andExpect(model().attribute("container", hasProperty("location", equalTo( "SFK" ) )))
 				.andExpect(model().attribute("container", hasProperty("destination", equalTo( "" ) )))
 				.andExpect(model().attributeHasFieldErrors("container", "status") );
@@ -206,7 +206,7 @@ public class ContainerControllerTest {
 				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
-				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( new BigDecimal(3) ) )))
+				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
 				.andExpect(model().attribute("container", hasProperty("location", equalTo( "SFK" ) )))
 				.andExpect(model().attributeHasFieldErrors("container", "destination") )
 				.andExpect(model().attribute("container", hasProperty("status", equalTo( Status.READY ) )));
