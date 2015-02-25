@@ -12,6 +12,6 @@
 	</head> 
 	<body>
 		<c:url value="/showMessage.html" var="messageUrl" />
-		<a href="product/show?product_id=1">Click to enter</a>
+		<a href="product/list.html">Click to enter</a>
 	</body>
 </html>

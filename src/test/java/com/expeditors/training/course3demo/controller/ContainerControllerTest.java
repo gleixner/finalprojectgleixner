@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -58,11 +59,11 @@ public class ContainerControllerTest {
 	@Test
 	public void testShowContainers() throws Exception {
 		List<Container> result = new ArrayList<>();
-		result.add( new Container( "Bob", new Double(1), "jfk", "ams", Status.ARRIVED ) );
-		result.add( new Container( "Sue", new Double(2), "jfk", "ams", Status.READY) );
-		result.add( new Container( "Jim", new Double(3), "jfk", "ams", Status.TRANSIT) );
-
-		Mockito.when(containerService.getAll()).thenReturn(result);
+		result.add( new Container( "Bob", 1.0, "jfk", "ams", Status.ARRIVED ) );
+		result.add( new Container( "Sue", 2.0, "jfk", "ams", Status.READY) );
+		result.add( new Container( "Jim", 3.0, "jfk", "ams", Status.TRANSIT) );
+		
+		Mockito.when(containerService.list(0, 4)).thenReturn(result);
 
 		mockMvc.perform(get("/container/list.html"))
 				.andExpect(status().isOk())
@@ -81,7 +82,7 @@ public class ContainerControllerTest {
 				.andExpect(model().attribute("containers", hasItem(
 						allOf(
 								hasProperty("name", is("Sue" ) ),
-								hasProperty("capacity", is( new BigDecimal(2) ) ),
+								hasProperty("capacity", is( 2.0 ) ),
 								hasProperty("location", is("jfk") ),
 								hasProperty("destination", is("ams") ),
 								hasProperty("status", is(Status.READY) )
@@ -90,7 +91,7 @@ public class ContainerControllerTest {
 				.andExpect(model().attribute("containers", hasItem(
 						allOf(
 								hasProperty("name", is("Jim" ) ),
-								hasProperty("capacity", is( new BigDecimal(3) ) ),
+								hasProperty("capacity", is( 3.0 ) ),
 								hasProperty("location", is("jfk") ),
 								hasProperty("destination", is("ams") ),
 								hasProperty("status", is(Status.TRANSIT) )
@@ -103,7 +104,7 @@ public class ContainerControllerTest {
 	public void testShowAddContainers() throws Exception {
 		mockMvc.perform(get("/container/add.html") )
 			.andExpect( status().isOk() )
-			.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
+			.andExpect( forwardedUrl("/WEB-INF/view/editContainer.jsp") )
 			.andExpect( model().attributeExists("container") )
 			.andExpect(model().attribute("container", hasProperty("name", equalTo( null ) )))
 			.andExpect(model().attribute("container", hasProperty("capacity", equalTo( null ) )))
@@ -122,8 +123,8 @@ public class ContainerControllerTest {
 				.param("destination", "NSY")
 				.param("status", "READY")
 				)
-				.andExpect( status().isOk() )
-				.andExpect( forwardedUrl("/WEB-INF/view/showContainer.jsp") )
+				.andExpect( status().isMovedTemporarily() )
+				.andExpect( redirectedUrl("/container/show.html?id=0") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
 				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
@@ -143,7 +144,7 @@ public class ContainerControllerTest {
 				.param("status", "READY")
 				)
 				.andExpect( status().isOk() )
-				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
+				.andExpect( forwardedUrl("/WEB-INF/view/editContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attributeHasFieldErrors("container", "name") )
 				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
@@ -163,7 +164,7 @@ public class ContainerControllerTest {
 				.param("status", "READY")
 				)
 				.andExpect( status().isOk() )
-				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
+				.andExpect( forwardedUrl("/WEB-INF/view/editContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
 				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
@@ -183,7 +184,7 @@ public class ContainerControllerTest {
 				.param("status", "steve")
 				)
 				.andExpect( status().isOk() )
-				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
+				.andExpect( forwardedUrl("/WEB-INF/view/editContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
 				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))
@@ -203,7 +204,7 @@ public class ContainerControllerTest {
 				.param("status", "READY")
 				)
 				.andExpect( status().isOk() )
-				.andExpect( forwardedUrl("/WEB-INF/view/addContainer.jsp") )
+				.andExpect( forwardedUrl("/WEB-INF/view/editContainer.jsp") )
 				.andExpect( model().attributeExists("container") )
 				.andExpect(model().attribute("container", hasProperty("name", equalTo( "bab" ) )))
 				.andExpect(model().attribute("container", hasProperty("capacity", equalTo( 3.0 ) )))

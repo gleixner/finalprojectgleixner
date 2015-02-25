@@ -18,6 +18,14 @@ public class Shipment {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Column
 	@Size(min=3, max=40)
 	String name;

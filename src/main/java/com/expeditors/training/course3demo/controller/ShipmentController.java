@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.expeditors.training.course3demo.model.Product;
 import com.expeditors.training.course3demo.model.Shipment;
 import com.expeditors.training.course3demo.service.ShipmentService;
 
@@ -30,9 +31,11 @@ public class ShipmentController {
 	@Autowired
 	ShipmentService shipmentService;
 	
+	private static final int PAGE_SIZE = 3;
+	
 	@RequestMapping("/show.html")
 	public String showShipments(
-				@RequestParam(value="shipment_id", defaultValue="0", required=false) Long id,
+				@RequestParam(value="id", defaultValue="0", required=false) Long id,
 				Model m 
 				) {
 		
@@ -57,26 +60,34 @@ public class ShipmentController {
 	
 	
 	@RequestMapping(value="/add.html", method=RequestMethod.POST)
-	public String addShipment( @ModelAttribute @Valid Shipment shipment, BindingResult bind, Model m ) {
+	public String addShipment( @ModelAttribute @Valid Shipment s, BindingResult bind, Model m ) {
 		String view;
 		
-		if( bind.hasErrors() ){
+		if( bind.hasErrors() ) {
 			view = "addShipment";
-		}
-		else if( shipmentService.addShipment( shipment ) ) {
-			view = "redirect:/shipment/show.html?name=" + shipment.getName();
 		}
 		else {
-			logger.info("Attempted to add duplicate name " + shipment.getName() );
-			m.addAttribute("error", "true");
-			view = "addShipment";
+			shipmentService.save( s );
+			view = "redirect:/shipment/show.html?name=" + s.getName();
 		}
-		List<ObjectError> oe = bind.getAllErrors();
-		for(ObjectError o : oe) {
-			logger.info(o.toString());
-		}
+//		List<ObjectError> oe = bind.getAllErrors();
+//		for(ObjectError o : oe) {
+//			logger.info(o.toString());
+//		}
 		
 		return view;
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="list.html")
+	public String listAllShipments(@RequestParam(value="page", required=false, defaultValue="0") Integer pagenum, Model m) {
+		List<Shipment> shipments;
+		
+		int start = pagenum*PAGE_SIZE;
+		shipments = shipmentService.list(start, PAGE_SIZE);
+		
+		m.addAttribute("shipments", shipments);
+		m.addAttribute("page", pagenum);
+		return "listShipments";
 	}
 	
 }

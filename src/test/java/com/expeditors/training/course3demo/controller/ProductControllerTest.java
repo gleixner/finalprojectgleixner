@@ -56,13 +56,13 @@ public class ProductControllerTest {
 		Mockito.when(productService.getProduct(1L)).thenReturn(first);
 		Mockito.when(productService.getProduct(2L)).thenReturn(second);
 
-		mockMvc.perform(get("/product/show.html?product_id=1"))
+		mockMvc.perform(get("/product/show.html?id=1"))
 				.andExpect(status().isOk())
 				.andExpect(forwardedUrl("/WEB-INF/view/showProduct.jsp"))
 				.andExpect(model().attributeExists("product"))
 				.andExpect(model().attribute("product", hasProperty("name", equalTo("foo"))));
 
-		mockMvc.perform(get("/product/show.html?product_id=2"))
+		mockMvc.perform(get("/product/show.html?id=2"))
 				.andExpect(status().isOk())
 				.andExpect(forwardedUrl("/WEB-INF/view/showProduct.jsp"))
 				.andExpect(model().attributeExists("product"))

@@ -38,7 +38,9 @@
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>ERROR</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
 	
 	

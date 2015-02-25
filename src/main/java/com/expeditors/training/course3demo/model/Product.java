@@ -21,7 +21,7 @@ public class Product {
 	@Pattern(regexp="[a-zA-Z]+")
 	@Column
 	String name;
-	
+
 	@Column
 	String description;
 	
@@ -55,4 +55,11 @@ public class Product {
 		this.price = price;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

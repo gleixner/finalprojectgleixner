@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.expeditors.training.course3demo.model.Shipment;
 
@@ -17,6 +19,13 @@ public class ShipmentService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	public List<Shipment> list(int start, int max) {
+		Query q = entityManager.createQuery("SELECT s from Shipment s");
+		q.setFirstResult(start);
+		q.setMaxResults(max);
+		return (List<Shipment>) q.getResultList();
+	}
+	
 	public Shipment getById(Long id) {
 		return entityManager.find(Shipment.class, id);
 	}
@@ -26,22 +35,16 @@ public class ShipmentService {
 	}
 	
 	/**
-	 * Attempts to add the given shipment to the database.
-	 * If the database already contains a shipment with the
-	 * given name, returns false and does not add the shipment
-	 * to the database.  Otherwise, adds shipment to the 
-	 * database and returns true.
+	 *Adds a shipment to the database
 	 * @param s
 	 * @return
 	 */
-	public boolean addShipment( Shipment s ) {
-//		boolean result = db.containsKey( s.getName() );
-//		
-//		if( !result ) {
-//			db.put( s.getName(),  s );
-//		}
-		boolean result = true;
-		return !result;
+	@Transactional
+	public Long save( Shipment s ) {
+		if( s.getId() == null )
+			entityManager.persist( s );
+		else
+			entityManager.merge( s );
+		return s.getId();
 	}
-	
 }

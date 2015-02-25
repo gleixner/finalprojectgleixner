@@ -2,12 +2,11 @@ package com.expeditors.training.course3demo.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.math.BigDecimal;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,10 +46,10 @@ public class ShipmentControllerTest {
 	}
 	
 	@Test
-	public void testAddDuplicateContainer() throws Exception {
+	public void testAddShipment() throws Exception {
 		Shipment s = new Shipment();
 		
-		Mockito.when( shipmentService.addShipment(s)).thenReturn( false );
+		Mockito.when( shipmentService.save(s)).thenReturn( 1L );
 		
 		mockMvc.perform( post("/shipment/add.html")
 			.contentType(MediaType.APPLICATION_FORM_URLENCODED )
@@ -59,14 +58,13 @@ public class ShipmentControllerTest {
 			.param("destination", "BBB")
 			.param("volume", "5") 
 			)
-			.andExpect( status().isOk() )
-			.andExpect( forwardedUrl("/WEB-INF/view/addShipment.jsp") )
-			.andExpect( model().attributeExists("error") )
+			.andExpect( status().isMovedTemporarily() )
+			.andExpect( redirectedUrl("/shipment/show.html?name=bab") )
+//			.andExpect( model().attributeExists("error") )
 			.andExpect( model().attributeExists("shipment"))
-			.andExpect( model().attribute("error", equalTo( "true" ) ) )
 			.andExpect( model().attribute("shipment", hasProperty("name", equalTo( "bab" ) ) ) )
 			.andExpect( model().attribute("shipment", hasProperty("origin", equalTo( "AAA" ) ) ) )
 			.andExpect( model().attribute("shipment", hasProperty("destination", equalTo( "BBB" ) ) ) )
-			.andExpect( model().attribute("shipment", hasProperty("volume", equalTo(new BigDecimal(5)) ) ) );
+			.andExpect( model().attribute("shipment", hasProperty("volume", is( 5.0 ) ) ) );
 	}
 }
