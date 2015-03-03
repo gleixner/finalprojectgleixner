@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.expeditors.training.course3demo.dto.FindContainerCriteria;
 import com.expeditors.training.course3demo.model.Container;
 import com.expeditors.training.course3demo.model.Product;
 import com.expeditors.training.course3demo.model.Shipment;
@@ -62,7 +63,7 @@ public class ContainerController {
 		
 		int start = page*PAGE_SIZE;
 		//get 1 more result than you need to check if there are more elements than what
-		//you have returned
+		//will fit on the current page
 		containers = containerService.list(start, PAGE_SIZE + 1);
 		
 		if( containers.size() == 0 ) {
@@ -76,7 +77,15 @@ public class ContainerController {
 		m.addAttribute("containers", containers);
 		m.addAttribute("page", page);
 		m.addAttribute("more", more);
+		m.addAttribute("criteria", new FindContainerCriteria() ); //for searching
 		return view;
+	}
+	
+	@RequestMapping(value="/list.html", method=RequestMethod.POST )
+	public String findContainerResults(@ModelAttribute FindContainerCriteria finder, Model m) {
+		
+		m.addAttribute("containers", containerService.findContainers(finder));
+		return "findContainerResults";
 	}
 	
 	@RequestMapping(value={ "/edit.html", "/add.html" }, method=RequestMethod.GET)

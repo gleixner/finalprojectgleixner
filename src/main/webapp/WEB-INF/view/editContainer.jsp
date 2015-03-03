@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c"uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -43,7 +44,14 @@
 	    </tr>	    
 	    <tr>
 	        <td colspan="2">
-	            <input type="submit" value="Add Container"/>
+	        	<c:choose>
+	        		<c:when test='${container.name != null}'>
+	        			<input type="submit" value="Edit Container"/>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<input type="submit" value="Add Container"/>
+	        		</c:otherwise>
+	        	</c:choose>
 	        </td>
 	    </tr>
 		</table>

@@ -42,7 +42,7 @@ public class PersistenceJPAConfig {
 	
 	private Properties addtionalProperties() {
 		Properties p = new Properties();
-		p.setProperty("show_sql", "true");
+		p.setProperty("hibernate.show_sql", "true");
 		p.setProperty("hibernate.hbm2ddl.auto", "validate");
 		p.setProperty("hibernate.dialect", environment.getProperty("db.dialect"));
 		return p;
