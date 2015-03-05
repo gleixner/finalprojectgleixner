@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.expeditors.training.course3demo.controller.ContainerControllerTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 3.91 sec <<< FAILURE!
-testShowAddContainers(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 2.316 sec  <<< ERROR!
+Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 5.184 sec <<< FAILURE!
+testShowAddContainers(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 1.678 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -67,7 +67,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:486)
 	... 49 more
 
-testAddContainerSuccess(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.218 sec  <<< ERROR!
+testAddContainerSuccess(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.195 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -132,7 +132,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:486)
 	... 49 more
 
-testAddContainerNameError(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.119 sec  <<< ERROR!
+testAddContainerNameError(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.139 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -197,7 +197,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:486)
 	... 49 more
 
-testAddContainerDestinationFailure(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.211 sec  <<< ERROR!
+testAddContainerDestinationFailure(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.226 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -262,7 +262,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:486)
 	... 49 more
 
-testAddContainerLocationError(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.512 sec  <<< ERROR!
+testAddContainerLocationError(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 1.044 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -327,7 +327,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:486)
 	... 49 more
 
-testShowContainers(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.188 sec  <<< ERROR!
+testShowContainers(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.911 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)
@@ -392,7 +392,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:486)
 	... 49 more
 
-testAddContainerStatusError(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.14 sec  <<< ERROR!
+testAddContainerStatusError(com.expeditors.training.course3demo.controller.ContainerControllerTest)  Time elapsed: 0.673 sec  <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.CacheAwareContextLoaderDelegate.loadContext(CacheAwareContextLoaderDelegate.java:99)
 	at org.springframework.test.context.TestContext.getApplicationContext(TestContext.java:122)

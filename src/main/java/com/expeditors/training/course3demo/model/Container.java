@@ -33,11 +33,11 @@ public class Container {
 //	BigDecimal capacity;
 	Double capacity;
 	
-	@Pattern(regexp="[A-Z0-9]{3}")
+	@Pattern(regexp="[A-Z]{3}")
 	@Column
 	String location;
 	
-	@Pattern(regexp="([A-Z0-9]{3})?")
+	@Pattern(regexp="([A-Z]{3})?")
 	@Column
 	String destination;
 	

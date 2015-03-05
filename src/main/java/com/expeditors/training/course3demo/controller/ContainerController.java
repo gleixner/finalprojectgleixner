@@ -82,10 +82,15 @@ public class ContainerController {
 	}
 	
 	@RequestMapping(value="/list.html", method=RequestMethod.POST )
-	public String findContainerResults(@ModelAttribute FindContainerCriteria finder, Model m) {
-		
-		m.addAttribute("containers", containerService.findContainers(finder));
-		return "findContainerResults";
+	public String findContainerResults(@ModelAttribute("criteria") FindContainerCriteria criteria, Model m) {
+		String view = "showContainers";
+
+		if( criteria.isEmpty() ) 
+			view = "redirect:/container/list.html";
+		else
+			m.addAttribute("containers", containerService.findContainers(criteria));
+
+		return view;
 	}
 	
 	@RequestMapping(value={ "/edit.html", "/add.html" }, method=RequestMethod.GET)

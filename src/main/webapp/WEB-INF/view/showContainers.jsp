@@ -15,9 +15,15 @@
 <title>Containers</title>
 </head>
 <body>
-
-	<h1>Containers</h1>
-	<hr/>
+	<c:choose>
+		<c:when test="${(criteria.name == null || criteria.name == '') && (criteria.location == null || criteria.location == '')}">
+			<h1>Containers</h1>
+		</c:when>
+		<c:otherwise>
+			<h1>Search Results</h1>
+		</c:otherwise>
+	</c:choose>
+			<hr/>
 
 	<table class="table table-striped">
 		<tr>
@@ -62,27 +68,28 @@
 			<td>
 		</tr>	
 	</table>
-	<br/>
-	<h2>Search</h2>
-	<hr/>
 	
-	<form:form method="post" commandName="criteria">
-		<table>
-		<tr>
-        	<td>Container Name:</td>
-        	<td><form:input path="name" /></td>
-     	</tr>
-	    <tr>
-	    	<td>Current Location:</td>
-	    	<td><form:input path="location" /></td>
-	    </tr>
-        <tr>
-        	<td colspan="2">
-            <input type="submit" value="Find Container"/>
-        	</td>
-    	</tr>
-		</table>
-	</form:form>
-
+	<c:if test="${criteria !=null}">
+		<br/>
+		<h2>Search</h2>
+		<hr/>
+		<form:form method="post" commandName="criteria">
+			<table>
+			<tr>
+	        	<td>Container Name:</td>
+	        	<td><form:input path="name" /></td>
+	     	</tr>
+		    <tr>
+		    	<td>Current Location:</td>
+		    	<td><form:input path="location" /></td>
+		    </tr>
+	        <tr>
+	        	<td colspan="2">
+	            <input type="submit" value="Find Container"/>
+	        	</td>
+	    	</tr>
+			</table>
+		</form:form>
+	</c:if>
 </body>
 </html>

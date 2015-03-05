@@ -22,4 +22,9 @@ public class FindContainerCriteria {
 		this.location = location;
 	}
 	
+	//Return true if there is no value, or the strings are empty for the name and location
+	public boolean isEmpty() {
+		return (name == null || name.trim().isEmpty()) && (location == null || location.trim().isEmpty());
+	}
+	
 }
