@@ -238,6 +238,20 @@
 			<version>3.0-alpha-2</version>
 		</dependency>
 
+<!-- 		Routing Dependencies -->
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0-rc2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>r05</version>
+		</dependency>
+		
+			
+
 	</dependencies>
 	
 	<build>

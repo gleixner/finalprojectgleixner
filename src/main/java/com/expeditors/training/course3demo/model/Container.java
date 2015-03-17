@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -49,6 +50,9 @@ public class Container {
 	@Column
 	String destination;
 	
+	@Transient
+	Double rate;
+	
 	
 	//http://tomee.apache.org/examples-trunk/jpa-enumerated/README.html
 	@Enumerated(value=EnumType.STRING)
@@ -72,6 +76,21 @@ public class Container {
 			this.destination = destination;
 			this.status = status;
 	}
+	
+	public Container(String name, 
+			Double capacity,
+			String location, 
+			String destination, 
+			Status status,
+			Double rate) 
+{
+	this.name = name;
+	this.capacity = capacity;
+	this.location = location;
+	this.destination = destination;
+	this.status = status;
+	this.rate = rate;
+}
 	
 	public Long getId() {
 		return id;
@@ -142,5 +161,13 @@ public class Container {
 			sum += sca.getShipmentVolume();
 		}
 		return capacity - sum;
+	}
+
+	public Double getRate() {
+		return rate;
+	}
+
+	public void setRate(Double cost) {
+		this.rate = cost;
 	}
 }
