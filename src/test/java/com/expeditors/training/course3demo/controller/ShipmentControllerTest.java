@@ -59,7 +59,8 @@ public class ShipmentControllerTest {
 			.param("volume", "5") 
 			)
 			.andExpect( status().isMovedTemporarily() )
-			.andExpect( redirectedUrl("/shipment/show.html?name=bab") )
+			//double check if this is the correct url
+			.andExpect( redirectedUrl("/shipment/show.html?id=0") )
 //			.andExpect( model().attributeExists("error") )
 			.andExpect( model().attributeExists("shipment"))
 			.andExpect( model().attribute("shipment", hasProperty("name", equalTo( "bab" ) ) ) )

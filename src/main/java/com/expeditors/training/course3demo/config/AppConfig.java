@@ -23,7 +23,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages="com.expeditors.training.course3demo"
+@ComponentScan(basePackages={"com.expeditors.training.course3demo", "edu.uw.course3demo.rest"}
 //			   ,excludeFilters = @Filter( type=FilterType.ASSIGNABLE_TYPE, value={PersistenceJPATestConfig.class})
 			  )
 @Import( {SecurityConfig.class, PersistenceJPAConfig.class} )

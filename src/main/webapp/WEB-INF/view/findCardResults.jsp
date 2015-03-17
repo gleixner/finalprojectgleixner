@@ -28,6 +28,9 @@
                     <c:forEach var="number" items="${card.phoneNumbers}">
                         <td>${number.number}</td>
                     </c:forEach>
+			    	<td>
+			    		<a href='<c:url value="/card/buy.html?card=${card.id}"/>'>Buy</a>
+			    	</td>
                 </tr>
             </c:forEach>
         </table>

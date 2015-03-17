@@ -20,12 +20,13 @@ import javax.validation.constraints.Size;
 @Table(name="USERACCOUNT")
 public class UserAccount {
 
-	@Id
-	@Column(name="USER_ID")
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+//	@Id
+//	@Column(name="USER_ID")
+//	@GeneratedValue(strategy=GenerationType.AUTO)
+//	private Long id;
 	
-	@Column
+	@Id
+	@Column(name="username", unique=true, nullable=false, length=30)
 	@Pattern(regexp="[\\w]{3,30}")
 	private String username;
 	
@@ -40,13 +41,13 @@ public class UserAccount {
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="userAccount", cascade=CascadeType.ALL)
 	private List<UserRole> userRoles;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	public String getUsername() {
 		return username;

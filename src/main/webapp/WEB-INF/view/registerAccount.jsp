@@ -6,7 +6,7 @@
 <body>
 <h2>Register Account</h2>
 <form:form method="post" commandName="user_account">
-    <form:hidden path="id"/>
+<%--     <form:hidden path="id"/> --%>
     <table>
     <tr>
         <td>Username:</td>

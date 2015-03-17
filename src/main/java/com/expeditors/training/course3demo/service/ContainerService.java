@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +36,25 @@ public class ContainerService {
 		return (List<Container>) q.getResultList();
 	}
 
+	public List<Container> listEager(int start, int max) {
+		List<Container> result = list(start, max);
+		for(Container container : result ) {
+			Hibernate.initialize(container);
+			Hibernate.initialize(container.getShipmentContainerAssociations());
+		}
+		return result;
+	}
+	
 	public Container getById(Long id) {
-//		Container result = eM.find(Container.class, id);
-		Container result = containerRepository.findOne(id);
+		Container result = eM.find(Container.class, id);
+//		Container result = containerRepository.findOne(id);
+		return result;
+	}
+	
+	public Container getByIdEager( Long id ) {
+		Container result = eM.find(Container.class, id);
+		Hibernate.initialize(result);
+		Hibernate.initialize(result.getShipmentContainerAssociations());
 		return result;
 	}
 	

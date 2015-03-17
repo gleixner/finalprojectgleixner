@@ -18,20 +18,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth)
 			throws Exception {
-//		auth.inMemoryAuthentication().withUser("abc").password("123456").roles("USER", "CONTENT", "MAINT", "CUSTOMER");
-//		auth.inMemoryAuthentication().withUser("con").password("asdf").roles("CONTENT");
-//		auth.inMemoryAuthentication().withUser("maint").password("work").roles("MAINT");
-//		auth.inMemoryAuthentication().withUser("cust").password("god").roles("CUSTOMER");
 		auth.userDetailsService( userDetailsServiceImpl );
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http
+		.csrf().disable()
+		.authorizeRequests()
 		.antMatchers("/resources/**").permitAll()
 		.antMatchers("/login/**").permitAll()
 		.antMatchers("/product/*").hasRole("CONTENT")
-		.antMatchers("/card/*").hasRole("USER")
+		.antMatchers("/card/*", "/product/list.html*", "/product/buy.html*").hasRole("USER")
 		.antMatchers("/container/*").hasRole("MAINT")
 		.antMatchers("/shipment/*").hasRole("CUSTOMER")
 		.antMatchers("/security/*").permitAll()
@@ -41,8 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.formLogin()
 			.loginPage("/login").permitAll()
 		.and()
-//		.logout().permitAll()
-//		.and()
 		.httpBasic();
 	}
 	

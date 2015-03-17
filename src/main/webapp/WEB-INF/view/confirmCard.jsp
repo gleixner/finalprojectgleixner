@@ -19,5 +19,13 @@
             <c:forEach var="number" items="${card.phoneNumbers}">
             	<p>${number.number}</p>
             </c:forEach>
+            
+            <br/>
+            <h2>Items Bought:</h2>
+            <hr/>
+            <c:forEach var="bp" items="${card.boughtProducts}">
+            	<p>${bp.product.name} - <fmt:formatNumber value="${bp.product.price}" type="currency"/>
+            	on <fmt:formatDate type="date" value="${bp.date}"/></p>
+            </c:forEach>
     </body>
 </html>

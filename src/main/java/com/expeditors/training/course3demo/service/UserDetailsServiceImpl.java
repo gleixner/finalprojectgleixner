@@ -22,25 +22,47 @@ import com.expeditors.training.course3demo.model.UserAccount;
 import com.expeditors.training.course3demo.model.UserRole;
 
 
-@Service("UserDetailsServiceImpl")
+@Service("securityService")
 @Transactional(readOnly=true)
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService, SecurityService {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public UserAccount getById(Long id) {
-		return entityManager.find(UserAccount.class, id);
-	}
-
 	public UserAccount getByName(String name) {
-		List<UserAccount> users;
-		Query q = entityManager.createQuery("SELECT a from UserAccount a where a.username= :name");
-
-		q.setParameter("name", name).setMaxResults(1);
-		users = q.getResultList();
-		return users.get(0);
+		return entityManager.find(UserAccount.class, name);
 	}
+	
+	@Transactional
+	public String add(UserAccount account) {
+		List<UserRole> result = new ArrayList<>();
+		for(UserRole role : account.getUserRoles() ) {
+			String role_name = role.getRole();
+			if( role_name.equals("None") ) {
+				continue;
+			}
+			role.setUserAccount(account);
+			role.setRole("ROLE_" + role_name );
+			result.add(role);
+		}
+		account.setUserRoles(result);
+		entityManager.persist(account);
+		return account.getUsername();
+	}
+
+//	public UserAccount getByName(String name) {
+//		List<UserAccount> users;
+//		UserAccount result = null;
+//		Query q = entityManager.createQuery("SELECT a from UserAccount a where a.username= :name");
+//
+//		q.setParameter("name", name).setMaxResults(1);
+//		users = q.getResultList();
+//		
+//		if(users.size() > 0 )
+//			result = users.get(0);
+//		
+//		return result;
+//	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String name)

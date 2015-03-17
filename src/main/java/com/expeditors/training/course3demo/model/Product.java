@@ -1,10 +1,16 @@
 package com.expeditors.training.course3demo.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
@@ -27,6 +33,12 @@ public class Product {
 	
 	@Column
 	double price;
+	
+//	@ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+//	Set<Card> cards;
+	
+//	@OneToMany(fetch=FetchType.LAZY, mappedBy="product", cascade=CascadeType.ALL)
+//	Set<CardProductBuys> boughtProducts;
 	
 	public Product(){}
 	
@@ -62,4 +74,12 @@ public class Product {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+//	public Set<CardProductBuys> getBoughtProducts() {
+//		return boughtProducts;
+//	}
+//
+//	public void setBoughtProducts(Set<CardProductBuys> boughtProducts) {
+//		this.boughtProducts = boughtProducts;
+//	}
 }

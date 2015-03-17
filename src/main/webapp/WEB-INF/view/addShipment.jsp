@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Add a Shipment</title>
 </head>
-<h2>Add a Container</h2>
+<h2>Add a Shipment</h2>
 <body>
 	<form:form method="POST" commandName="shipment">
 	    <table>
@@ -37,7 +37,15 @@
 	    </tr>
 	    <tr>
 	        <td colspan="2">
-	            <input type="submit" value="Add a Shipment"/>
+	        	<c:choose>
+	        		<c:when test='${shipment.name != null}'>
+		        		<h3>Editing a shipment will cause its routing to be deleted</h3>
+	        			<input type="submit" value="Edit Shipment"/>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<input type="submit" value="Add Shipment"/>
+	        		</c:otherwise>
+	        	</c:choose>
 	        </td>
 	    </tr>
 		</table>

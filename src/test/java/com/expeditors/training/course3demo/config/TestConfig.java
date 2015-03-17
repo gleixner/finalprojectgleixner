@@ -10,13 +10,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.expeditors.training.course3demo.dao.ContainerRepository;
+import com.expeditors.training.course3demo.factories.AggregateFactory;
+import com.expeditors.training.course3demo.service.CardService;
 import com.expeditors.training.course3demo.service.ContainerService;
 import com.expeditors.training.course3demo.service.ProductService;
+import com.expeditors.training.course3demo.service.SecurityService;
 import com.expeditors.training.course3demo.service.ShipmentService;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = "com.expeditors.training.course3demo.controller")
+@ComponentScan(basePackages = {"com.expeditors.training.course3demo.controller"})
 @Import({PersistenceJPATestConfig.class})
 public class TestConfig extends WebMvcConfigurerAdapter {
 
@@ -24,7 +28,6 @@ public class TestConfig extends WebMvcConfigurerAdapter {
 	public ProductService productService() {
 		return Mockito.mock(ProductService.class);
 	}
-	
 	@Bean
 	public ContainerService containerService() {
 		return Mockito.mock(ContainerService.class);
@@ -32,6 +35,22 @@ public class TestConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public ShipmentService shipmentService() {
 		return Mockito.mock(ShipmentService.class);
+	}
+	@Bean
+	public CardService cardService() {
+		return Mockito.mock(CardService.class);
+	}
+	@Bean
+	public SecurityService securityService() {
+		return Mockito.mock(SecurityService.class);
+	}
+	@Bean
+	public ContainerRepository containerRepository() {
+		return Mockito.mock(ContainerRepository.class);
+	}
+	@Bean
+	public AggregateFactory aggregateFactory() {
+		return Mockito.mock(AggregateFactory.class);
 	}
 	@Bean
 	public InternalResourceViewResolver viewResolver() {

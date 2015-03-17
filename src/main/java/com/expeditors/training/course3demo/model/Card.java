@@ -1,6 +1,7 @@
 package com.expeditors.training.course3demo.model;
  
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
@@ -45,6 +48,9 @@ public class Card {
     @OneToMany(fetch=FetchType.EAGER, mappedBy="card", cascade=CascadeType.ALL)
     @OrderColumn(name="index")
     List<PhoneNumber> phoneNumbers;
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="card", cascade= CascadeType.ALL)
+    Set<CardProductBuys> boughtProducts;
  
     public Address getAddress() {
 		return address;
@@ -92,5 +98,21 @@ public class Card {
 
 	public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
+	}
+//
+//	public Set<Product> getProducts() {
+//		return products;
+//	}
+//
+//	public void setProducts(Set<Product> products) {
+//		this.products = products;
+//	}
+
+	public Set<CardProductBuys> getBoughtProducts() {
+		return boughtProducts;
+	}
+
+	public void setBoughtProducts(Set<CardProductBuys> boughtProducts) {
+		this.boughtProducts = boughtProducts;
 	}
 }

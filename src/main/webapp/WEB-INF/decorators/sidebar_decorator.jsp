@@ -15,8 +15,13 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>" >
 	<link rel="stylesheet" href="<c:url value="/resources/css/simple-sidebar.css"/>" >
 	
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css">
+<%-- 	<script src="<c:url value="/resources/js/jquery-1.11.2.min.js"/>"></script> --%>
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js" type="text/javascript"></script>
+	<script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js" type="text/javascript"></script>
+		
 	<sec:authorize var="loggedIn" access="isAuthenticated()" />
-	<script src="<c:url value="/resources/js/trouble.js"/>" type="text/javascript"></script>
+<%-- 	<script src="<c:url value="/resources/js/trouble.js"/>" type="text/javascript"></script> --%>
 </head>
 
 <body>
@@ -44,7 +49,7 @@
                	</sec:authorize>
                	<sec:authorize access="hasRole('ROLE_USER')">
                		<li><strong>Cards</strong></li>
-               		<li><a href="/finalprojectgleixner/card/list.html">List all Cards</a></li>
+               		<li><a href="/finalprojectgleixner/card/find.html">Find Card</a></li>
                		<li><a href="/finalprojectgleixner/card/add.html">Add a Card</a></li>
                		<hr/>         	
                	</sec:authorize>
@@ -86,17 +91,22 @@
 	</div> <!-- End Wrapper -->
 	    <!-- jQuery -->
 	    
-    <script src="<c:url value="/resources/js/jquery.js"/>" ></script>
+<%--     <script src="<c:url value="/resources/js/jquery.js"/>" ></script> --%>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value="/resources/js/bootstrap.min.js"/>" ></script>
 
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+    	var $ = jQuery;
+	    $("#menu-toggle").click(function(e) {
+	        e.preventDefault();
+	        $("#wrapper").toggleClass("toggled");
+	    });
+	    
+	    $(document).ready(function(){
+	        $("#myTable").DataTable();
+	    });
     </script>
 
 </body>

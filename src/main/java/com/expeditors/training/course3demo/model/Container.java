@@ -1,20 +1,28 @@
 package com.expeditors.training.course3demo.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.expeditors.training.course3demo.enums.Status;
 
 @Entity
+@XmlRootElement(name="container")
 public class Container {
 
 	@Id
@@ -45,6 +53,10 @@ public class Container {
 	//http://tomee.apache.org/examples-trunk/jpa-enumerated/README.html
 	@Enumerated(value=EnumType.STRING)
 	Status status;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="container", cascade=CascadeType.ALL)
+	Set<ShipmentContainerAssociation> shipmentContainerAssociations;
+	
 	
 	public Container(){}
 	
@@ -114,5 +126,21 @@ public class Container {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
+	public Set<ShipmentContainerAssociation> getShipmentContainerAssociations() {
+		return shipmentContainerAssociations;
+	}
+
+	public void setShipmentContainerAssociations(
+			Set<ShipmentContainerAssociation> shipmentContainerAssociations) {
+		this.shipmentContainerAssociations = shipmentContainerAssociations;
+	}
 	
+	public double currentCapacity() {
+		double sum = 0;
+		for( ShipmentContainerAssociation sca : shipmentContainerAssociations ) {
+			sum += sca.getShipmentVolume();
+		}
+		return capacity - sum;
+	}
 }

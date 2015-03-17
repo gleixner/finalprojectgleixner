@@ -34,7 +34,7 @@ public class ContainerController {
 	@Autowired
 	ContainerService containerService;
 	
-	private static final int PAGE_SIZE = 3;
+	private static final int PAGE_SIZE = 100;
 	
 	@RequestMapping("/show.html")
 	public String showContainers(
@@ -42,17 +42,20 @@ public class ContainerController {
 				Model m 
 				) {
 		
+		String view = "showContainers";
 		List<Container> result;
+		
 		if( id == 0 ) {
-			result = containerService.list(0, 10);
+//			result = containerService.list(0, 10);
+			view = "redirect:/container/list.html";
 		}
 		else {
 			result = new ArrayList<>();
 			result.add( containerService.getById( id ) );
+			m.addAttribute("containers", result );
 		}
 		
-		m.addAttribute("containers", result );
-		return "showContainers";
+		return view;
 	}
 	
 	@RequestMapping(value="/list.html", method=RequestMethod.GET )
@@ -66,10 +69,7 @@ public class ContainerController {
 		//will fit on the current page
 		containers = containerService.list(start, PAGE_SIZE + 1);
 		
-		if( containers.size() == 0 ) {
-			view = "redirect:/container/list.html";
-			page = 0;}
-		else if( containers.size() < PAGE_SIZE + 1 )
+		if( containers.size() < PAGE_SIZE + 1 )
 			more = false;
 		else 
 			containers.remove( containers.size() -1 );

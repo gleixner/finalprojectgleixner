@@ -9,6 +9,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Welcome</title>
+		<meta http-equiv="refresh" content="0; url=shipment/list.html" />
 	</head> 
 	<body>
 		<c:url value="/showMessage.html" var="messageUrl" />

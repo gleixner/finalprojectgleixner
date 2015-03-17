@@ -29,6 +29,7 @@
 				<td>${product.price}</td>
 		    	<td><a href='<c:url value="/product/edit.html?id=${product.id}"/>'>Edit</a> </td>
 		    	<td><a href='<c:url value="/product/remove.html?id=${product.id}"/>'>Remove</a></td>
+		    	<td><a href='<c:url value="/product/buy.html?id=${product.id}"/>'>Buy</a></td>
 			</tr>
 		</c:forEach>
 		<tr>

@@ -1,7 +1,9 @@
 package com.expeditors.training.course3demo.controller;
  
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
  
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
  
+
 
 import com.expeditors.training.course3demo.dto.FindCardCriteria;
 import com.expeditors.training.course3demo.model.Card;
@@ -68,6 +71,17 @@ public class CardController {
             mav.addObject("id", id);
         }
         return mav;
+    }
+    
+    @RequestMapping(value="buy.html", method=RequestMethod.GET)
+    public String buyProduct(@RequestParam(value="card", required=true) Long cardId,
+//    						  @RequestParam(value="product", required=true) Long productId,
+    						  HttpSession session,
+    						  Model m) {
+    	Long productId = (Long) session.getAttribute("product");
+    	Card c = cardService.buy(cardId, productId);
+    	m.addAttribute("id", c.getId());
+    	return "redirect:/card/confirm.html";
     }
  
 }

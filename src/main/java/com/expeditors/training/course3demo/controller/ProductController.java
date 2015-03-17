@@ -3,6 +3,7 @@ package com.expeditors.training.course3demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -83,4 +84,14 @@ public class ProductController {
 		productService.delete(id);
 		return "redirect:/product/list.html";
 	}
+	
+	@RequestMapping(value="buy.html", method=RequestMethod.GET)
+	public String buyProduct(
+			@RequestParam(value="id", required=true) Long productId,
+			HttpSession session,
+			Model m) {
+		session.setAttribute("product", productId);
+		return "redirect:/card/find.html";
+	}
+	
 }

@@ -6,11 +6,9 @@
 
 <html>
 <head>
-<!-- <style> -->
-<!-- table, th, td { -->
-<!--    border: 1px solid black; -->
-<!--	} */ -->
-<!-- </style> -->
+<!-- 	<link rel="stylesheet" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css"> -->
+<!-- 	<script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js" type="text/javascript"></script> -->
+	
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Containers</title>
 </head>
@@ -25,19 +23,18 @@
 	</c:choose>
 			<hr/>
 
-	<table class="table table-striped">
-		<tr>
-			<thead>
-			<th> Name </th>
-			<th> Capacity </th>
-			<th> Location </th>
-			<th> Destination </th>
-			<th> Status </th>
-			<th> Edit </th>
-			<th> Remove </th>
-			</thead>
-		<tr>
-		<tbody>
+	<table id="myTable"> 
+		<thead>
+			<tr>
+				<th> Name </th>
+				<th> Capacity </th>
+				<th> Location </th>
+				<th> Destination </th>
+				<th> Status </th>
+				<th> Edit </th>
+				<th> Remove </th>
+			</tr>
+		</thead>
 		<c:forEach items="${containers}" var="container">
 			<tr>
 				<td>${container.name}</td>
@@ -49,24 +46,24 @@
 		    	<td><a href='<c:url value="/container/remove.html?id=${container.id}"/>'>Remove</a></td>
 			</tr>
 		</c:forEach>
-		</tbody>
-		<tr>
-			<td>
-				<c:if test="${page>0}">
-					<a href="<c:url value="/container/list.html?page=${page-1}"/>">Previous</a>
-				</c:if>
-			</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>		
-			<td>
-				<c:if test="${more}">
-					<a href="<c:url value="/container/list.html?page=${page+1}"/>">Next</a>
-				</c:if>
-			<td>
-		</tr>	
+<!-- 		</tbody> -->
+<!-- 		<tr> -->
+<!-- 			<td> -->
+<%-- 				<c:if test="${page>0}"> --%>
+<%-- 					<a href="<c:url value="/container/list.html?page=${page-1}"/>">Previous</a> --%>
+<%-- 				</c:if> --%>
+<!-- 			</td> -->
+<!-- 			<td></td> -->
+<!-- 			<td></td> -->
+<!-- 			<td></td> -->
+<!-- 			<td></td> -->
+<!-- 			<td></td>		 -->
+<!-- 			<td> -->
+<%-- 				<c:if test="${more}"> --%>
+<%-- 					<a href="<c:url value="/container/list.html?page=${page+1}"/>">Next</a> --%>
+<%-- 				</c:if> --%>
+<!-- 			<td> -->
+<!-- 		</tr>	 -->
 	</table>
 	
 	<c:if test="${criteria !=null}">
