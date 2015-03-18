@@ -70,11 +70,11 @@ public class Container {
 					String destination, 
 					Status status ) 
 	{
-			this.name = name;
-			this.capacity = capacity;
-			this.location = location;
-			this.destination = destination;
-			this.status = status;
+		this.name = name;
+		this.capacity = capacity;
+		this.location = location;
+		this.destination = destination;
+		this.status = status;
 	}
 	
 	public Container(String name, 
@@ -83,14 +83,14 @@ public class Container {
 			String destination, 
 			Status status,
 			Double rate) 
-{
-	this.name = name;
-	this.capacity = capacity;
-	this.location = location;
-	this.destination = destination;
-	this.status = status;
-	this.rate = rate;
-}
+	{
+		this.name = name;
+		this.capacity = capacity;
+		this.location = location;
+		this.destination = destination;
+		this.status = status;
+		this.rate = rate;
+	}
 	
 	public Long getId() {
 		return id;
@@ -157,8 +157,10 @@ public class Container {
 	
 	public double currentCapacity() {
 		double sum = 0;
-		for( ShipmentContainerAssociation sca : shipmentContainerAssociations ) {
-			sum += sca.getShipmentVolume();
+		if(shipmentContainerAssociations != null ) {
+			for( ShipmentContainerAssociation sca : shipmentContainerAssociations ) {
+				sum += sca.getShipmentVolume();
+			}
 		}
 		return capacity - sum;
 	}
