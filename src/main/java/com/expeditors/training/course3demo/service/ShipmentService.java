@@ -1,6 +1,7 @@
 package com.expeditors.training.course3demo.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -16,12 +17,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.expeditors.training.course3demo.aggregates.DijkstraRoutingAggregate;
 import com.expeditors.training.course3demo.aggregates.ShipmentRoutingAggregate;
+import com.expeditors.training.course3demo.dto.ShipmentRoutesView;
 import com.expeditors.training.course3demo.factories.AggregateFactory;
 import com.expeditors.training.course3demo.model.Container;
 import com.expeditors.training.course3demo.model.Shipment;
 import com.expeditors.training.course3demo.model.ShipmentContainerAssociation;
 import com.expeditors.training.course3demo.model.UserAccount;
+import com.expeditors.training.course3demo.routing.RouteStrategy;
+import com.expeditors.training.course3demo.routing.Utilities;
 
 
 @Service
@@ -145,6 +150,37 @@ public class ShipmentService {
 		}
 		return shipment;		
 	}
+	
+	@Transactional
+	public Shipment routeShipmentDijkstra(Long id ) {
+		Shipment shipment = getById(id);
+		
+		//If this shipment is not editable, return the shipment unmodified
+		//This is a code smell since it can fail to route, but not tell the user.
+		if( !shipment.getEditable() ) return shipment;
+		deleteRouting( id );
+		
+		DijkstraRoutingAggregate agg = aggregateFactory.getDijkstraRoutingAggregate(shipment);
+		List<List<Container>> route = agg.getBestRouting();
+		
+		//From here to the end of the outer for loop should be in it's own tiny aggregate
+		RouteStrategy fillStrategy = Utilities.getFillStrategy();
+		for( List<Container> containers : route ) {
+			double shipmentSize = shipment.getVolume();
+			//sort this list, lowest capacity first in order to fill the containers
+			Collections.sort(containers, fillStrategy);
+			for( Container container : containers ) {
+				double availableCapacity = container.currentCapacity();
+				double assignedVolume = shipmentSize > availableCapacity ? availableCapacity : shipmentSize;
+				ShipmentContainerAssociation sca = new ShipmentContainerAssociation ( 
+						shipment, container, assignedVolume, new Date() );
+				shipmentSize -= assignedVolume;
+				shipment.getShipmentContainerAssociations().add(sca);
+			}
+		}
+		//End what should be an aggregate
+		return shipment;		
+	}
 
 	//This method is secure because getById is secured
 	@Transactional
@@ -163,5 +199,12 @@ public class ShipmentService {
 			throw new IllegalArgumentException("Operation not permitted");
 		}
 		entityManager.remove(s);
+	}
+
+	@Transactional
+	public ShipmentRoutesView getShipmentRoutesView(Long id) {
+		Shipment shipment = getById(id);
+		ShipmentRoutesView dataView = new ShipmentRoutesView(shipment);
+		return dataView;
 	}
 }

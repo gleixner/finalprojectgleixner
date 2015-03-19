@@ -3,6 +3,7 @@ package com.expeditors.training.course3demo.factories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.expeditors.training.course3demo.aggregates.DijkstraRoutingAggregate;
 import com.expeditors.training.course3demo.aggregates.ShipmentRoutingAggregate;
 import com.expeditors.training.course3demo.dao.ContainerRepository;
 import com.expeditors.training.course3demo.model.Shipment;
@@ -36,6 +37,10 @@ public class AggregateFactory {
 
 	public ShipmentRoutingAggregate getShipmentRoutingAggregate(Shipment shipment) {
 		return new ShipmentRoutingAggregate(shipmentService, containerRepository, shipment);
+	}
+	
+	public DijkstraRoutingAggregate getDijkstraRoutingAggregate(Shipment shipment) {
+		return new DijkstraRoutingAggregate(shipmentService, containerRepository, shipment);
 	}
 	
 }

@@ -42,6 +42,11 @@ public class Container {
 //	BigDecimal capacity;
 	Double capacity;
 	
+	@Min(0)
+	@NotNull
+	@Column
+	Double rate;
+	
 	@Pattern(regexp="[A-Z]{3}")
 	@Column
 	String location;
@@ -49,11 +54,7 @@ public class Container {
 	@Pattern(regexp="([A-Z]{3})?")
 	@Column
 	String destination;
-	
-	@Transient
-	Double rate;
-	
-	
+
 	//http://tomee.apache.org/examples-trunk/jpa-enumerated/README.html
 	@Enumerated(value=EnumType.STRING)
 	Status status;
@@ -171,5 +172,21 @@ public class Container {
 
 	public void setRate(Double cost) {
 		this.rate = cost;
+	}
+	
+	public String getCurrentLocation() {
+		String result;
+		
+		switch( status ) {
+		case READY:
+			result = location;
+			break;
+		case ARRIVED:
+			result = destination;
+			break;
+		default:
+			result = "NA";
+		}
+		return result;
 	}
 }

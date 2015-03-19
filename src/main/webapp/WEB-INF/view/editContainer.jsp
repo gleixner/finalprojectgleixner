@@ -23,6 +23,11 @@
 	        <td><form:errors path="capacity" cssclass="error" /></td>  
 	    </tr>
 	    <tr>
+	        <td>Rate:</td>
+	        <td><form:input path="rate" placeholder="Enter a rate"/></td>
+	        <td><form:errors path="rate" cssclass="error" /></td>  
+	    </tr>
+	    <tr>
 	        <td>Location:</td>
 	        <td ><form:input path="location" placeholder="Enter 3 Letter Airport Code"/></td>
 	        <td><form:errors path="location" cssclass="error" /></td>  	        

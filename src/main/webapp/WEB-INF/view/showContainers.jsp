@@ -28,6 +28,7 @@
 			<tr>
 				<th> Name </th>
 				<th> Capacity </th>
+				<th> Rate </th>
 				<th> Location </th>
 				<th> Destination </th>
 				<th> Status </th>
@@ -39,6 +40,7 @@
 			<tr>
 				<td>${container.name}</td>
 				<td>${container.capacity}</td>
+				<td>${container.rate}</td>
 				<td>${container.location}</td>
 				<td>${container.destination}</td>
 				<td>${container.status}</td>

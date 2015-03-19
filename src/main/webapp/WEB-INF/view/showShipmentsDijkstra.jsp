@@ -14,9 +14,11 @@
 
 	<c:if test='${shipment !=null}'>
 	<c:choose>
-		<c:when test="${fn:length(shipment.shipmentContainerAssociations) > 0}">
+		<c:when test="${fn:length(dataView.assignedRoutes) > 0}">
 			<h3>Shipment ${shipment.name} has been routed on the following containers</h3>
 		
+			<c:forEach items="${dataView.assignedRoutes}" var="leg">
+			<h3>Booking from ${leg.origin} to ${leg.destination}</h3>
 			<table class="table table-striped">
 				<tr>
 					<thead>
@@ -28,7 +30,7 @@
 					</thead>
 				<tr>
 				<tbody>
-				<c:forEach items="${shipment.shipmentContainerAssociations}" var="sca">
+				<c:forEach items="${leg.assignedScas}" var="sca">
 					<tr>
 						<td>${sca.container.name}</td>
 						<td>${sca.shipmentVolume}</td>
@@ -39,6 +41,8 @@
 				</c:forEach>
 				</tbody>
 			</table>
+			</c:forEach>
+			
 			<c:if test="${shipment.editable}">
 				<td><a href='<c:url value="/shipment/route.html?id=${shipment.id}"/>'>Reroute Shipment</a> </td>
 				<br/>

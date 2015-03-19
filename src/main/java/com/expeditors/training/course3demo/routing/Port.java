@@ -144,4 +144,8 @@ public class Port implements Node<Port> {
 		return sb.toString();
 	}
 	
+	public List<Container> getCachedRoute( Port port ) {
+		return calculatedRoutes.get(port);
+	}
+	
 }

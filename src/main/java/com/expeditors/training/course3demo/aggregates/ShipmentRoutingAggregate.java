@@ -113,7 +113,7 @@ public class ShipmentRoutingAggregate {
 	 * @author chq-jamesgl
 	 *
 	 */
-	private class OrderShipmentSolutions implements Comparator<List<Container>> {
+	public static class OrderShipmentSolutions implements Comparator<List<Container>> {
 
 		@Override
 		public int compare(List<Container> o1, List<Container> o2) {

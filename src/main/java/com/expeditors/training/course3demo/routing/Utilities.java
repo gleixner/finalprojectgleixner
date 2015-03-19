@@ -101,4 +101,17 @@ public class Utilities {
 		List<Port> result = new ArrayList<>(ports.values());
 		return result;
 	}
+	
+	//Return null if the port can't be found
+	public static Port findPort(List<Port> ports, String target) {
+		int i = 0;
+		while(i < ports.size() && !ports.get(i).getName().equals(target) )
+			i += 1;
+		Port result;
+		if( i >= ports.size() )
+			result = null;
+		else
+			result = ports.get(i);
+		return result;
+	}
 }
