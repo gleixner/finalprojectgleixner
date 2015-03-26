@@ -3,10 +3,8 @@ package com.expeditors.training.course3demo.routing;
 //Copyright (C) 2002-2010 StackFrame, LLC http://www.stackframe.com/
 //This software is provided under the GNU General Public License, version 2.
 
-import com.google.common.collect.Ordering;
-
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +12,8 @@ import java.util.Map;
 import org.apache.commons.lang.mutable.MutableDouble;
 
 import com.expeditors.training.course3demo.model.Container;
+import com.expeditors.training.course3demo.model.Shipment;
+import com.google.common.collect.Ordering;
 
 
 /**
@@ -96,9 +96,53 @@ public class Utilities {
 				ports.put(destination, destPort);
 			}
 			
-			originPort.putContainerOnRoute( destPort, container);
+			originPort.addContainerToPort( destPort, container);
 		}
 		List<Port> result = new ArrayList<>(ports.values());
+		return result;
+	}
+	
+	public static List<Port> buildPortTimeGraph(List<Container> containers, double shipmentVolume) {
+		Map<String,Map<Integer,Port>> ports = new HashMap<>();
+		Map<String,Container> storageContainers = new HashMap<>();
+		MutableDouble volume = new MutableDouble(shipmentVolume);
+		
+		for( Container container : containers ) {
+			String origin = container.getLocation();
+			String destination = container.getDestination();
+			Integer departureDate = container.getDepartureDate();
+			Integer arrivalDate = container.getArrivalDate();
+			
+			Map<Integer,Port> originPorts = ports.get( origin );
+			if( originPorts == null ) {
+				originPorts = new HashMap<Integer,Port>();
+				ports.put( origin, originPorts );
+			}
+			
+			Map<Integer,Port> destinationPorts = ports.get( destination );
+			if( destinationPorts == null ) {
+				destinationPorts = new HashMap<Integer,Port>();
+				ports.put( destination, destinationPorts );
+			}
+			
+			Port departurePort = originPorts.get( departureDate );
+			if( departurePort == null ) {
+				departurePort = new Port( origin, departureDate, volume );
+				originPorts.put( departureDate, departurePort );
+			}
+			
+			Port arrivalPort = destinationPorts.get( arrivalDate );
+			if( arrivalPort == null ) {
+				arrivalPort = new Port( destination, arrivalDate, volume );
+				destinationPorts.put( arrivalDate, arrivalPort );
+			}
+			departurePort.addContainerToPort(arrivalPort, container);
+		}
+		
+		List<Port> result = new ArrayList<>();
+		for(String portName : ports.keySet() ) {
+			result.addAll( ports.get( portName ).values() );
+		}
 		return result;
 	}
 	
@@ -107,6 +151,21 @@ public class Utilities {
 		int i = 0;
 		while(i < ports.size() && !ports.get(i).getName().equals(target) )
 			i += 1;
+		Port result;
+		if( i >= ports.size() )
+			result = null;
+		else
+			result = ports.get(i);
+		return result;
+	}
+	
+	public static Port findPort( List<Port> ports, Shipment shipment ) {
+		int i = 0;
+		while( i <ports.size() 
+				&& !ports.get(i).getName().equals( shipment.getName() ) 
+				&& !ports.get(i).getDate().equals( shipment.getDepartureDate())) {
+			i += 1;
+		}
 		Port result;
 		if( i >= ports.size() )
 			result = null;

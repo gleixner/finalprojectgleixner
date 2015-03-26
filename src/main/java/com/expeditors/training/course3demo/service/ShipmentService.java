@@ -25,6 +25,7 @@ import com.expeditors.training.course3demo.model.Container;
 import com.expeditors.training.course3demo.model.Shipment;
 import com.expeditors.training.course3demo.model.ShipmentContainerAssociation;
 import com.expeditors.training.course3demo.model.UserAccount;
+import com.expeditors.training.course3demo.routing.Route;
 import com.expeditors.training.course3demo.routing.RouteStrategy;
 import com.expeditors.training.course3demo.routing.Utilities;
 
@@ -161,24 +162,15 @@ public class ShipmentService {
 		deleteRouting( id );
 		
 		DijkstraRoutingAggregate agg = aggregateFactory.getDijkstraRoutingAggregate(shipment);
-		List<List<Container>> route = agg.getBestRouting();
+		List<Route> routes = agg.getBestPath();
 		
-		//From here to the end of the outer for loop should be in it's own tiny aggregate
-		RouteStrategy fillStrategy = Utilities.getFillStrategy();
-		for( List<Container> containers : route ) {
-			double shipmentSize = shipment.getVolume();
-			//sort this list, lowest capacity first in order to fill the containers
-			Collections.sort(containers, fillStrategy);
-			for( Container container : containers ) {
-				double availableCapacity = container.currentCapacity();
-				double assignedVolume = shipmentSize > availableCapacity ? availableCapacity : shipmentSize;
-				ShipmentContainerAssociation sca = new ShipmentContainerAssociation ( 
-						shipment, container, assignedVolume, new Date() );
-				shipmentSize -= assignedVolume;
+		for( Route route : routes ) {
+			for( Container container : route.getContainers() ) {
+				ShipmentContainerAssociation sca = new ShipmentContainerAssociation(shipment,
+						container, route.getAssignedCapacityForContainer( container ), new Date() );
 				shipment.getShipmentContainerAssociations().add(sca);
 			}
 		}
-		//End what should be an aggregate
 		return shipment;		
 	}
 

@@ -62,8 +62,11 @@ public class Shipment {
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="shipment", cascade=CascadeType.ALL, orphanRemoval=true) //
 	Set<ShipmentContainerAssociation> shipmentContainerAssociations;
 	
-//	@Transient
-//	private boolean editable;
+	@Transient
+	Integer departureDate;
+	
+	@Transient
+	Integer arrivalDate;
 	
 	public Shipment(){}
 	
@@ -161,5 +164,21 @@ public class Shipment {
 			sum += sca.getShipmentVolume();
 		}
 		return sum;
+	}
+
+	public Integer getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(Integer departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public Integer getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(Integer arrivalDate) {
+		this.arrivalDate = arrivalDate;
 	}
 }

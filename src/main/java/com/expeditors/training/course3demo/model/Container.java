@@ -62,6 +62,12 @@ public class Container {
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="container", cascade=CascadeType.ALL)
 	Set<ShipmentContainerAssociation> shipmentContainerAssociations;
 	
+	@Transient
+	Integer departureDate;
+	
+	@Transient
+	Integer arrivalDate;
+	
 	
 	public Container(){}
 	
@@ -91,6 +97,25 @@ public class Container {
 		this.destination = destination;
 		this.status = status;
 		this.rate = rate;
+	}
+	
+	public Container(String name, 
+			Double capacity,
+			String location, 
+			String destination, 
+			Status status,
+			Double rate,
+			int departureDate,
+			int arrivalDate) 
+	{
+		this.name = name;
+		this.capacity = capacity;
+		this.location = location;
+		this.destination = destination;
+		this.status = status;
+		this.rate = rate;
+		this.departureDate = departureDate;
+		this.arrivalDate = arrivalDate;
 	}
 	
 	public Long getId() {
@@ -188,5 +213,25 @@ public class Container {
 			result = "NA";
 		}
 		return result;
+	}
+	
+	public String toString() {
+		return name;
+	}
+
+	public Integer getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(Integer departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public Integer getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(Integer arrivalDate) {
+		this.arrivalDate = arrivalDate;
 	}
 }

@@ -1,11 +1,14 @@
 package com.expeditors.training.course3demo.factories;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.expeditors.training.course3demo.aggregates.DijkstraRoutingAggregate;
 import com.expeditors.training.course3demo.aggregates.ShipmentRoutingAggregate;
 import com.expeditors.training.course3demo.dao.ContainerRepository;
+import com.expeditors.training.course3demo.model.Container;
 import com.expeditors.training.course3demo.model.Shipment;
 import com.expeditors.training.course3demo.service.CardService;
 import com.expeditors.training.course3demo.service.ContainerService;
@@ -40,7 +43,8 @@ public class AggregateFactory {
 	}
 	
 	public DijkstraRoutingAggregate getDijkstraRoutingAggregate(Shipment shipment) {
-		return new DijkstraRoutingAggregate(shipmentService, containerRepository, shipment);
+		List<Container> containers = containerRepository.findAll();
+		return new DijkstraRoutingAggregate( shipment, containers);
 	}
 	
 }

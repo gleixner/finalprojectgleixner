@@ -14,60 +14,44 @@ import com.expeditors.training.course3demo.model.Container;
 public class Port implements Node<Port> {
 	
 	String name;
+	Integer date;
 	
-	RouteStrategy strategy = Utilities.getCostStrategy();
+	Strategy strategy = new RecursiveCostStrategy();
 	
 	//This value will be shared by a bunch of Port objects and 
 	//they will use it to update each other on changes in capacity.
 	//not thread safe so no shenannigans.
+	//Here's why I have this.  I need two things to calculate the cost
+	//of moving between nodes, destination and how much I'm noving.
+	//The dijkstra class gives me the neighbor, but I still need the 
+	//shipment size.  If I want to reuse the same graph between routing assignments
+	//(not likely to happen soon) then I need to be able to change the shipment 
+	//size for an entire graph of ports.
 	private MutableDouble shipmentVolume;
 	
-	Map<Port,List<Container>> routes = new HashMap<>();
+	Map<Port,List<Container>> containersToPort = new HashMap<>();
 	
 	//This map contains the list of containers that should be booked
 	//in order to move freight to a port
-	Map<Port, List<Container>> calculatedRoutes = new HashMap<>();
-	
-	
+	Map<Port, Route> calculatedRoutes = new HashMap<>();
 	
 	@Override
 	public double pathCostEstimate(Port goal) {
 		// This method is not called in Dijkstra
 		return 0;
 	}
-
+	
 	@Override
 	public double traverseCost(Port dest) {
-		List<Container> containers = routes.get( dest );
-		List<Container> assignedContainers = new ArrayList<>();
-		Collections.sort(containers, strategy);
-		double allocatedVolume = 0;
-		double cost = 0;
-		
-		int i = 0;
-		while(i < containers.size() && allocatedVolume < shipmentVolume.doubleValue() ) {
-			assignedContainers.add( containers.get(i) );
-			allocatedVolume += containers.get(i).currentCapacity();
-			++i;
-		}
-		calculatedRoutes.put(dest, assignedContainers);
-		//If shipmentVolume is +infinity, than this is a test mode and all containers
-		//for this route are being requested
-		if( shipmentVolume.doubleValue() != Double.POSITIVE_INFINITY 
-				&& allocatedVolume < shipmentVolume.doubleValue() ) {
-			cost = Double.POSITIVE_INFINITY;
-		}
-		else {
-			for( Container container : assignedContainers ) {
-				cost += container.getRate();
-			}
-		}
-		return cost;
+		List<Container> containers = containersToPort.get(dest);
+		Route bestRoute = strategy.getBestRoute(containers, shipmentVolume.doubleValue());
+		calculatedRoutes.put( dest, bestRoute );
+		return bestRoute.getCost();
 	}
 
 	@Override
 	public Iterable<Port> neighbors() {
-		return routes.keySet();
+		return containersToPort.keySet();
 	}
 	
 //	public double getCapacityForRoute(String destination) {
@@ -83,11 +67,11 @@ public class Port implements Node<Port> {
 		this.name = name;
 	}
 
-	public RouteStrategy getStrategy() {
+	public Strategy getStrategy() {
 		return strategy;
 	}
 
-	public void setStrategy(RouteStrategy strategy) {
+	public void setStrategy(Strategy strategy) {
 		this.strategy = strategy;
 	}
 
@@ -99,52 +83,58 @@ public class Port implements Node<Port> {
 		this.shipmentVolume = shipmentCapacity;
 	}
 
-	public void setRoutes(Map<Port, List<Container>> routes) {
-		this.routes = routes;
+	public void setContainersToPort(Map<Port, List<Container>> routes) {
+		this.containersToPort = routes;
+	}
+	
+	public Map<Port, List<Container>> getContainersToPort() {
+		return containersToPort;
 	}
 
-	public Map<Port, List<Container>> getCalculatedRoutes() {
+	public Map<Port, Route> getCalculatedRoutes() {
 		return calculatedRoutes;
 	}
 
-	public void setCalculatedRoutes(Map<Port, List<Container>> calculatedRoutes) {
-		this.calculatedRoutes = calculatedRoutes;
-	}
-
-	public Map<Port, List<Container>> getRoutes() {
-		return routes;
-	}
-
 	public Port(String name, MutableDouble shipmentCapacity) {
-		super();
 		this.name = name;
 		this.shipmentVolume = shipmentCapacity;
 	}
 	
-	public void putContainerOnRoute( Port destPort, Container container ) {
-		List<Container> containers = routes.get( destPort );
+	public Port(String name, Integer date, MutableDouble shipmentCapacity) {
+		this.name = name;
+		this.date = date;
+		this.shipmentVolume = shipmentCapacity;
+	}
+	
+	public void addContainerToPort( Port destPort, Container container ) {
+		List<Container> containers = containersToPort.get( destPort );
 		if( containers == null ) {
 			containers = new ArrayList<>();
-			routes.put(destPort, containers);
+			containersToPort.put(destPort, containers);
 		}
 		containers.add( container );
 	}
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Name " + name);
-		sb.append("\n");
-		sb.append("Strategy: " + strategy.getName());
-		sb.append("\n");
+		sb.append("Name: " + name);
+		sb.append(", ");
+		sb.append("Date: " + date);
+		sb.append(", ");
 
-		sb.append("neighbors:\n");
+		sb.append("neighbors{");
 		for( Port port : neighbors() ) {
-			sb.append("\t" + port.name + "\n");
+			sb.append(" " + port.name + port.getDate() + ", ");
 		}
+		sb.append("};");
 		return sb.toString();
 	}
 	
-	public List<Container> getCachedRoute( Port port ) {
+	public Integer getDate() {
+		return date;
+	}
+
+	public Route getCachedRoute( Port port ) {
 		return calculatedRoutes.get(port);
 	}
 	

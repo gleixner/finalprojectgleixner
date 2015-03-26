@@ -39,7 +39,7 @@ public class DijkstraTest {
 		containers.add(new Container("2", 12.0, "B", "C", Status.READY, 2.0));
 		containers.add(new Container("3", 12.0, "C", "Z", Status.READY, 2.0));
 		
-		List<Port> ports = Utilities.buildPortGraph(containers);
+		List<Port> ports = Utilities.buildPortGraph(containers, 1);
 		
 		Port originPort = find( ports, "A" );
 		Port destPort = find( ports, "B" );
@@ -63,7 +63,7 @@ public class DijkstraTest {
 		
 		Dijkstra<Port> dij = new Dijkstra<Port>();
 		
-		List<Port> ports = Utilities.buildPortGraph( containers );
+		List<Port> ports = Utilities.buildPortGraph( containers, 1 );
 		
 		List<Port> portRoute = dij.findPath(ports, find(ports, "A"), end(ports, "Z"));
 		
@@ -90,7 +90,7 @@ public class DijkstraTest {
 		
 		Dijkstra<Port> dij = new Dijkstra<Port>();
 		
-		List<Port> ports = Utilities.buildPortGraph( containers );
+		List<Port> ports = Utilities.buildPortGraph( containers, 1 );
 		
 		List<Port> portRoute = dij.findPath(ports, find(ports, "A"), end(ports, "Z"));
 		
