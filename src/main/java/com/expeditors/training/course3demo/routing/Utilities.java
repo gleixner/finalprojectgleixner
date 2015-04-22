@@ -104,7 +104,6 @@ public class Utilities {
 	
 	public static List<Port> buildPortTimeGraph(List<Container> containers, double shipmentVolume) {
 		Map<String,Map<Integer,Port>> ports = new HashMap<>();
-		Map<String,Container> storageContainers = new HashMap<>();
 		MutableDouble volume = new MutableDouble(shipmentVolume);
 		
 		for( Container container : containers ) {
